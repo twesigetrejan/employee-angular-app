@@ -15,6 +15,10 @@ import { EmployeeModel } from '../../model/employee';
 export class Employee implements OnInit {
   showModal = false;
   employees: EmployeeModel[] = [];
+  paginatedEmployees: EmployeeModel[] = [];
+  currentPage: number = 1;
+  pageSize: number = 8;
+  totalPages: number = 0;
 
   http = inject(HttpClient);
   router = inject(Router);
@@ -35,22 +39,48 @@ export class Employee implements OnInit {
     this.http.get("/api/EmployeeManagement/GetAllEmployees").subscribe({
       next: (res: any) => {
         console.log('Full API Response:', res);
-        // Handle different response structures
         if (Array.isArray(res)) {
           this.employees = res;
-        } else if (res.data) {
-          this.employees = res.data;
-        } else if (res.result) {
-          this.employees = res.result;
         } else {
           this.employees = [];
           console.error('Unexpected response structure:', res);
         }
         console.log('Employees loaded:', this.employees.length);
+        this.updatePagination();
       },
       error: (err) => {
         console.error('API Error:', err);
       }
     });
+  }
+
+  updatePagination() {
+    this.totalPages = Math.ceil(this.employees.length / this.pageSize);
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.paginatedEmployees = this.employees.slice(startIndex, endIndex);
+  }
+
+  goToPage(page: number) {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.updatePagination();
+    }
+  }
+
+  nextPage() {
+    this.goToPage(this.currentPage + 1);
+  }
+
+  previousPage() {
+    this.goToPage(this.currentPage - 1);
+  }
+
+  get startRecord(): number {
+    return this.employees.length === 0 ? 0 : (this.currentPage - 1) * this.pageSize + 1;
+  }
+
+  get endRecord(): number {
+    return Math.min(this.currentPage * this.pageSize, this.employees.length);
   }
 }
