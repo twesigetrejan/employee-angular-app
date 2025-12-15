@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
+  standalone: true,
   imports: [
     FormsModule
   ],
@@ -27,7 +28,8 @@ export class Login {
         localStorage.setItem("employeeApp", JSON.stringify(res.data));
         this.router.navigateByUrl("/dashboard");
       } else {
-        alert(res.message);
+        console.error('Login failed:', res.message);
       }
     });
-  };}
+  }
+}
