@@ -10,7 +10,7 @@
   box-sizing: border-box;
 }
 
-body {
+:host {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   min-height: 100vh;
   display: flex;
@@ -19,11 +19,12 @@ body {
   background: #122D48;
   position: relative;
   overflow: hidden;
+  width: 100%;
 }
 
 /* Animated Background Circles */
-body::before,
-body::after {
+:host::before,
+:host::after {
   content: '';
   position: absolute;
   border-radius: 50%;
@@ -32,7 +33,7 @@ body::after {
   animation: float 8s ease-in-out infinite;
 }
 
-body::before {
+:host::before {
   width: 500px;
   height: 500px;
   background: rgba(32, 105, 150, 0.3);
@@ -41,7 +42,7 @@ body::before {
   animation-delay: 0s;
 }
 
-body::after {
+:host::after {
   width: 400px;
   height: 400px;
   background: rgba(1, 67, 125, 0.2);

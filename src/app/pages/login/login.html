@@ -1,10 +1,11 @@
-<body class="">
-   <!-- Page 1: Welcome/Intro -->
-   <div class="container">
-    <div class="login-card">
-      <!-- Animated Border Trails -->
-      <div class="trail trail-1"></div>
-      <div class="trail trail-2"></div>
+<div class="">
+
+</div><!-- Page 1: Welcome/Intro -->
+<div class="container">
+  <div class="login-card">
+    <!-- Animated Border Trails -->
+    <div class="trail trail-1"></div>
+    <div class="trail trail-2"></div>
 
       <!-- Avatar/Camera Icon -->
       <div class="avatar-container">
@@ -24,7 +25,7 @@
             <path d="M10 12.5C5 12.5 2.5 15 2.5 17.5V20H17.5V17.5C17.5 15 15 12.5 10 12.5Z" fill="currentColor"/>
           </svg>
         </div>
-        <input type="text" placeholder="Username" id="username">
+        <input type="text" placeholder="Username" id="username" [(ngModel)] = "loginObject.userName">
       </div>
 
       <!-- Password Input -->
@@ -36,7 +37,7 @@
             <circle cx="10" cy="14" r="1.5" fill="currentColor"/>
           </svg>
         </div>
-        <input type="password" placeholder="Password" id="password">
+        <input type="password" placeholder="Password" id="password" [(ngModel)]="loginObject.password">
       </div>
 
       <!-- Remember Me & Forgot Password -->
@@ -50,10 +51,6 @@
       </div>
 
       <!-- Login Button -->
-      <button class="login-btn" id="loginBtn">LOGIN</button>
+      <button class="login-btn" id="loginBtn" (click)="onLogin()">LOGIN</button>
     </div>
   </div>
-
-
-
-</body>
