@@ -3,12 +3,19 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { EmployeeModel } from '../../model/employee';
+import { TableModule } from 'primeng/table';
+import { ToastModule } from 'primeng/toast';
+import { ButtonModule } from 'primeng/button';
+import { TagModule } from 'primeng/tag';
+import { RippleModule } from 'primeng/ripple';
+import { MessageService } from 'primeng/api';
 
 
 @Component({
   selector: 'app-employee',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TableModule, ToastModule, ButtonModule, TagModule, RippleModule],
+  providers: [MessageService],
   templateUrl: './employee.html',
   styleUrl: './employee.css',
 })
@@ -19,6 +26,7 @@ export class Employee implements OnInit {
   currentPage: number = 1;
   pageSize: number = 8;
   totalPages: number = 0;
+  expandedRows: { [key: string]: boolean } = {};
 
   http = inject(HttpClient);
   router = inject(Router);
@@ -82,5 +90,24 @@ export class Employee implements OnInit {
 
   get endRecord(): number {
     return Math.min(this.currentPage * this.pageSize, this.employees.length);
+  }
+
+  expandAll() {
+    this.expandedRows = this.employees.reduce((acc: any, employee) => {
+      acc[employee.employeeId] = true;
+      return acc;
+    }, {});
+  }
+
+  collapseAll() {
+    this.expandedRows = {};
+  }
+
+  onRowExpand(event: any) {
+    console.log('Row expanded:', event.data);
+  }
+
+  onRowCollapse(event: any) {
+    console.log('Row collapsed:', event.data);
   }
 }
